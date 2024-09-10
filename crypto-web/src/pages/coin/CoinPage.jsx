@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import "./CoinPage.css";
 import { useParams } from "react-router-dom";
 import { CoinContext } from "../../context/CoinContext";
-import { LineChart } from "../../crypto/components/linechart/LineChart";
+import { LineChart } from "../../components/linechart/LineChart";
 
 export const CoinPage = () => {
   const { coinId } = useParams();
@@ -78,15 +78,24 @@ export const CoinPage = () => {
           </ul>
           <ul>
             <li>Market cap</li>
-            <li>{currency.symbol}{coinData.market_data.market_cap[currency.name].toLocaleString()}</li>
+            <li>
+              {currency.symbol}
+              {coinData.market_data.market_cap[currency.name].toLocaleString()}
+            </li>
           </ul>
           <ul>
             <li>24 Hour high</li>
-            <li>{currency.symbol}{coinData.market_data.high_24h[currency.name].toLocaleString()}</li>
+            <li>
+              {currency.symbol}
+              {coinData.market_data.high_24h[currency.name].toLocaleString()}
+            </li>
           </ul>
           <ul>
             <li>24 Hour low</li>
-            <li>{currency.symbol}{coinData.market_data.low_24h[currency.name].toLocaleString()}</li>
+            <li>
+              {currency.symbol}
+              {coinData.market_data.low_24h[currency.name].toLocaleString()}
+            </li>
           </ul>
         </div>
       </div>
