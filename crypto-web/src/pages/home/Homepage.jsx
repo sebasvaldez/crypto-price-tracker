@@ -4,9 +4,6 @@ import "./HomePage.css";
 
 import { Link } from "react-router-dom";
 
-
-
-
 export const Homepage = () => {
   const { allCoins, currency } = useContext(CoinContext);
   const [displayCoins, setDisplayCoins] = useState([]);
@@ -60,14 +57,17 @@ export const Homepage = () => {
       </div>
       <div className="crypto-table">
         <div className="table-layout">
+          <p></p>
           <p>#</p>
-          <p>Coins</p>
-          <p>Price</p>
-          <p style={{ textAlign: "center" }}>24Hs Change</p>
-          <p className="market-cap">Market Cap</p>
+          <p>Moneda</p>
+          <p>Precio</p>
+          <p style={{ textAlign: "center" }}>Cambio en 24hs</p>
+          <p className="market-cap">Cap. de mercado</p>
         </div>
         {displayCoins.slice(0, 15).map((item) => (
           <Link to={`/coin/${item.id}`} className="table-layout" key={item.id}>
+            <p>⭐</p>
+
             <p>{item.market_cap_rank}</p>
             <div>
               <img

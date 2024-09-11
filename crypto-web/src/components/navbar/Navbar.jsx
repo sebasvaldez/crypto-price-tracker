@@ -37,8 +37,12 @@ export const Navbar = () => {
           <li>Principal</li>
         </Link>
         <li>Features</li>
-        <li>Pricing</li>
-        <li>Blog</li>
+        <Link
+          target="_blank"
+          to="https://sebasvaldez.github.io/sebasvaldez.io/"
+        >
+          <li>Portfolio dev</li>
+        </Link>
       </ul>
       <div className="nav-right">
         <select onChange={handleCurrencyChange}>
@@ -49,6 +53,19 @@ export const Navbar = () => {
 
         <AuthButtons />
       </div>
+
+      <ul>
+        <Link to={"/"}>
+          <li>Principal</li>
+        </Link>
+        <li>Features</li>
+        <Link
+          target="_blank"
+          to="https://sebasvaldez.github.io/sebasvaldez.io/"
+        >
+          <li>Portfolio dev</li>
+        </Link>
+      </ul>
     </div>
   );
 };
