@@ -1,11 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import { CoinContext } from "../../context/CoinContext";
-import "./HomePage.css";
-
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import Swal from "sweetalert2";
+import "./HomePage.css";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { IconButton } from "@mui/material";
 
 export const Homepage = () => {
   const { allCoins, currency } = useContext(CoinContext);
+  const { currentUser } = useContext(AuthContext);
+
   const [displayCoins, setDisplayCoins] = useState([]);
   const [input, setInput] = useState("");
 
@@ -15,7 +20,6 @@ export const Homepage = () => {
       setDisplayCoins(allCoins);
     }
   };
-  /////////////////// voy en 1h 39 minutos
 
   const searchHandler = async (event) => {
     event.preventDefault();
@@ -57,7 +61,7 @@ export const Homepage = () => {
       </div>
       <div className="crypto-table">
         <div className="table-layout">
-          <p></p>
+         
           <p>#</p>
           <p>Moneda</p>
           <p>Precio</p>
@@ -66,7 +70,8 @@ export const Homepage = () => {
         </div>
         {displayCoins.slice(0, 15).map((item) => (
           <Link to={`/coin/${item.id}`} className="table-layout" key={item.id}>
-            <p>⭐</p>
+
+            
 
             <p>{item.market_cap_rank}</p>
             <div>

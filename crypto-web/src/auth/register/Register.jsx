@@ -1,10 +1,14 @@
+import { AuthContext } from "../../context/AuthContext";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EmailIcon from "@mui/icons-material/Email";
 import HttpsIcon from "@mui/icons-material/Https";
 import "./Register.css";
-import { useState } from "react";
 
 export const Register = () => {
+  const { registerUser } = useContext(AuthContext);
+  const navigate= useNavigate();
   const [user, setUset] = useState({
     name: "",
     email: "",
@@ -19,7 +23,8 @@ export const Register = () => {
   };
 
   const handleSubmit = () => {
-    console.log(user);
+    registerUser(user.name, user.email, user.password);
+    navigate("/");
   };
 
   return (

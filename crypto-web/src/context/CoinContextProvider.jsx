@@ -27,7 +27,6 @@ export const CoinContextProvider = ({ children }) => {
     fetchAllCoins();
   }, [currency]);
 
-  console.log(allCoins)
 
   const contextValue = {
     allCoins,currency,setCurrency

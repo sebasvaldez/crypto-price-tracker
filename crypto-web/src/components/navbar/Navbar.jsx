@@ -7,6 +7,7 @@ import { AuthButtons } from "../authButtons/AuthButtons";
 
 export const Navbar = () => {
   const { setCurrency } = useContext(CoinContext);
+  
 
   const handleCurrencyChange = (e) => {
     console.log(e.target.value);

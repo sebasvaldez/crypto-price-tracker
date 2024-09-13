@@ -36,7 +36,6 @@
 
 .coin-name p b {
   font-size: 45px;
-  font-weight: 500;
 }
 .coin-chart {
   max-width: 600px;
@@ -59,3 +58,21 @@
 .coin-info ul li:last-child {
   font-weight: 300;
 }
+
+@media (min-width:312px){
+
+  .coin-fav{
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+  }
+  .coin-name p b {
+    font-size: 40px;
+    font-weight: 500;
+  }
+ 
+
+}
+
+
+

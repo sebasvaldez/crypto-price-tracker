@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,6 +11,10 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
 export const AuthButtons = () => {
+  const { activeUser, currentUser, logoutUser } = useContext(AuthContext);
+  // console.log(currentUser);
+  const navigate = useNavigate();
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenu = (event) => {
@@ -16,6 +23,12 @@ export const AuthButtons = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogOut = () => {
+    logoutUser();
+    navigate("/");
+    handleClose();
   };
 
   return (
@@ -46,12 +59,26 @@ export const AuthButtons = () => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <Link to="/login">
-            <MenuItem onClick={handleClose}>Ingresar</MenuItem>
-          </Link>
-          <Link to="/register">
-            <MenuItem onClick={handleClose}>registrarse</MenuItem>
-          </Link>
+          {activeUser ? (
+            <div>
+              <Link to="/profile">
+                <MenuItem sx={{borderBottom:"1px solid #989898"}} onClick={handleClose}>{currentUser?.name}</MenuItem>
+              </Link>
+              <Link to="/favorites">
+                <MenuItem onClick={handleClose}>Favoritos</MenuItem>
+              </Link>
+              <MenuItem onClick={handleLogOut}>Cerrar sesión</MenuItem>
+            </div>
+          ) : (
+            <div>
+              <Link to="/login">
+                <MenuItem onClick={handleClose}>Ingresar</MenuItem>
+              </Link>
+              <Link to="/register">
+                <MenuItem onClick={handleClose}>registrarse</MenuItem>
+              </Link>
+            </div>
+          )}
         </Menu>
       </Toolbar>
     </Box>

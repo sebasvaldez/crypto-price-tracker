@@ -3,12 +3,18 @@ import "./CoinPage.css";
 import { useParams } from "react-router-dom";
 import { CoinContext } from "../../context/CoinContext";
 import { LineChart } from "../../components/linechart/LineChart";
+import Swal from "sweetalert2";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import { Icon, IconButton } from "@mui/material";
+import { AuthContext } from "../../context/AuthContext";
 
 export const CoinPage = () => {
   const { coinId } = useParams();
   const [coinData, setCoinData] = useState();
   const [historicalData, setHistoricalData] = useState();
   const { currency } = useContext(CoinContext);
+  const { currentUser } = useContext(AuthContext);
 
   const fetchCoinData = async () => {
     const options = {
@@ -53,10 +59,34 @@ export const CoinPage = () => {
       <div className="coin">
         <div className="coin-name">
           <img src={coinData?.image.large} alt="" />
-          <p>
+          <p className="coin-fav">
             <b>
               {coinData?.name} ({coinData?.symbol.toUpperCase()})
             </b>
+            {
+              <IconButton
+                sx={{ marginLeft: "20px" }}
+                onClick={() => {
+                  if (currentUser) {
+                    Swal.fire({
+                      title: "Añadido a favoritos",
+                      icon: "success",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  } else {
+                    Swal.fire({
+                      title: "Debes iniciar sesión para añadir un favorito",
+                      icon: "error",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  }
+                }}
+              >
+                <StarBorderIcon sx={{ fontSize: "30px" }} />
+              </IconButton>
+            }
           </p>
         </div>
         <div className="coin-chart">
