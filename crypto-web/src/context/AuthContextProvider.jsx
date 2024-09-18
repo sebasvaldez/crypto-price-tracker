@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, act } from "react";
 import { AuthContext } from "./AuthContext";
 import { fireBaseAuth } from "../firebase/firebase.config";
 import {
@@ -8,6 +8,7 @@ import {
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
+  getAuth,
 } from "firebase/auth";
 import { getFirestore, setDoc, doc, getDoc, } from "firebase/firestore";
 
@@ -91,6 +92,7 @@ export const AuthContextProvider = ({ children }) => {
     currentUser,
     activeUser,
   };
+
 
   useEffect(() => {
     const suscribed = onAuthStateChanged(fireBaseAuth, (user) => {

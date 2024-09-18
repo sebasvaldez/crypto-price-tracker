@@ -23,8 +23,6 @@ export const CoinPage = () => {
   const { currentUser } = useContext(AuthContext);
   const { fetchCoin, coinData } = useContext(CoinContext);
 
-  console.log(favoritesCoins);
-  console.log(coinData)
 
   const fetchHistoricalData = async () => {
     const options = {

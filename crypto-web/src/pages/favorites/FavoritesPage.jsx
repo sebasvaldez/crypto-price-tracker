@@ -1,32 +1,23 @@
-import { CoinContext } from '../../context/CoinContext';
-import './FavoritesPage.css';
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-
-
-
+import { CoinContext } from "../../context/CoinContext";
+import "./FavoritesPage.css";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import StarIcon from "@mui/icons-material/Star";
+import { IconButton } from "@mui/material";
+import Swal from "sweetalert2";
 
 export const FavoritesPage = () => {
+  const { allCoins, favoritesCoins, currency, deleteFavoritecoin } =
+    useContext(CoinContext);
 
-
-  const {allCoins,favoritesCoins, currency}= useContext(CoinContext);
-
-
-
-  console.log(allCoins)
-  console.log(favoritesCoins)
-
-
-  const matchingCoins = allCoins.filter(coin => favoritesCoins.some(favCoin=>favCoin.coinId === coin.id))
-
-  console.log(matchingCoins)
-
-
-
+  const matchingCoins = allCoins.filter((coin) =>
+    favoritesCoins.some((favCoin) => favCoin.coinId === coin.id)
+  );
 
   return (
-    <div className="crypto-table">
-      <div className="table-layout">
+    <div className="crypto-table-fav">
+      <div className="table-layout-fav">
+        <p></p>
         <p>#</p>
         <p>Moneda</p>
         <p>Precio</p>
@@ -34,7 +25,28 @@ export const FavoritesPage = () => {
         <p className="market-cap">Cap. de mercado</p>
       </div>
       {matchingCoins.slice(0, 15).map((item) => (
-        <Link to={`/coin/${item.id}`} className="table-layout" key={item.id}>
+        <Link
+          to={`/coin/${item.id}`}
+          className="table-layout-fav"
+          key={item.id}
+        >
+          <IconButton
+            sx={{ marginRight: "20px" }}
+            onClick={(e) => {
+              Swal.fire({
+                title: "Eliminado de favoritos",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              e.preventDefault();
+              e.stopPropagation();
+              deleteFavoritecoin(item.id);
+            }}
+          >
+            <StarIcon sx={{ fontSize: "25px", color: "yellow" }} />
+          </IconButton>
+
           <p>{item.market_cap_rank}</p>
           <div>
             <img src={item.image} alt="Imagen del simbolo de la criptomoneda" />

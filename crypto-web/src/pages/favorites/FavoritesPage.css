@@ -1,0 +1,36 @@
+.crypto-table-fav {
+    display: flex;
+    flex-direction: column;
+    margin: 50px auto;
+    max-width: 800px;
+  background: linear-gradient(rgba(84, 3, 255, 015), rgba(105, 2, 153, 015));
+  border-radius: 15px;
+}
+.table-layout-fav {
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr 2fr 1fr 1fr 1.5fr;
+  padding: 15px 20px;
+  align-items: center;
+  border-bottom: 1px solid #3c3c3c;
+}
+
+.table-layout-fav:last-child {
+  border: none;
+}
+.table-layout-fav div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.table-layout-fav div img {
+  width: 35px;
+}
+.table-layout-fav .green {
+  color: #00d515;
+  text-align: center;
+}
+.table-layout-fav .red {
+  color: #ff4646;
+  text-align: center;
+}

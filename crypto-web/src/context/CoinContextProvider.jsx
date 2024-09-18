@@ -8,8 +8,7 @@ import {
   getDoc,
   getDocs,
   collection,
-  updateDoc,
-  arrayUnion,
+  
   deleteDoc,
 } from "firebase/firestore";
 
