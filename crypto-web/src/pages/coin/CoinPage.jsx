@@ -11,7 +11,6 @@ import { AuthContext } from "../../context/AuthContext";
 
 export const CoinPage = () => {
   const { coinId } = useParams();
-  const [coinData, setCoinData] = useState();
 
   const [historicalData, setHistoricalData] = useState();
   const {
@@ -22,23 +21,10 @@ export const CoinPage = () => {
     getFavoritesCoins,
   } = useContext(CoinContext);
   const { currentUser } = useContext(AuthContext);
+  const { fetchCoin, coinData } = useContext(CoinContext);
 
   console.log(favoritesCoins);
-
-  const fetchCoinData = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        "x-cg-demo-api-key": "CG-ShVMZ9Z1v1J9XYjMukcapti7",
-      },
-    };
-
-    fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`, options)
-      .then((response) => response.json())
-      .then((response) => setCoinData(response))
-      .catch((err) => console.error(err));
-  };
+  console.log(coinData)
 
   const fetchHistoricalData = async () => {
     const options = {
@@ -67,7 +53,7 @@ export const CoinPage = () => {
   };
 
   useEffect(() => {
-    fetchCoinData();
+    fetchCoin(coinId);
     fetchHistoricalData();
     getFavoritesCoins();
   }, [currency]);

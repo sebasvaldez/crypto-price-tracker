@@ -67,7 +67,7 @@ export const Homepage = () => {
           <p style={{ textAlign: "center" }}>Cambio en 24hs</p>
           <p className="market-cap">Cap. de mercado</p>
         </div>
-        {displayCoins.slice(0, 15).map((item) => (
+        {displayCoins.slice(0, 100).map((item) => (
           <Link to={`/coin/${item.id}`} className="table-layout" key={item.id}>
             <p>{item.market_cap_rank}</p>
             <div>

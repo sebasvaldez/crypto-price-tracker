@@ -6,6 +6,7 @@ import { CoinPage } from "./pages/coin/CoinPage";
 import { Footer } from "./components/footer/Footer";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegisterPage } from "./pages/auth/RegisterPage";
+import { FavoritesPage } from "./pages/favorites/FavoritesPage";
 import { PrivateRoutes } from "./components/privateRoutes/PrivateRoutes";
 import { PublicRoutes } from "./components/publicRoutes/PublicRoutes";
 
@@ -41,7 +42,7 @@ const App = () => {
           path="/favorites"
           element={
             <PrivateRoutes>
-              <h1>Favoritos</h1>
+              <FavoritesPage />
             </PrivateRoutes>
           }
         />

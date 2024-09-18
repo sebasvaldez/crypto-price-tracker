@@ -76,6 +76,7 @@ export const AuthContextProvider = ({ children }) => {
     try {
       await signOut(fireBaseAuth);
       localStorage.removeItem("user");
+      localStorage.removeItem("favorites");
       setCurrentUser(null);
     } catch (error) {
       console.log(error);
