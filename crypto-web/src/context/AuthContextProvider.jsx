@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { fireBaseAuth } from "../firebase/firebase.config";
 import {
@@ -9,9 +9,12 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore/lite";
+import { getFirestore, setDoc, doc, getDoc, } from "firebase/firestore";
+
 
 export const AuthContextProvider = ({ children }) => {
+
+
   const db = getFirestore();
 
   const [currentUser, setCurrentUser] = useState(null);
@@ -51,6 +54,7 @@ export const AuthContextProvider = ({ children }) => {
         const userData = userDoc.data();
         localStorage.setItem("user", JSON.stringify(userData));
         setCurrentUser(userData);
+
       } else {
         console.log("No se encontraron datos del usuario en Firestore.");
       }

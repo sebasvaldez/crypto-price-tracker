@@ -61,7 +61,6 @@ export const Homepage = () => {
       </div>
       <div className="crypto-table">
         <div className="table-layout">
-         
           <p>#</p>
           <p>Moneda</p>
           <p>Precio</p>
@@ -70,9 +69,6 @@ export const Homepage = () => {
         </div>
         {displayCoins.slice(0, 15).map((item) => (
           <Link to={`/coin/${item.id}`} className="table-layout" key={item.id}>
-
-            
-
             <p>{item.market_cap_rank}</p>
             <div>
               <img

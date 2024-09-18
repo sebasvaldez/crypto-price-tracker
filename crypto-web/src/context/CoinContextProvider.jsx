@@ -1,9 +1,24 @@
 import { useEffect, useState } from "react";
 import { CoinContext } from "./CoinContext";
+import { getAuth } from "firebase/auth";
+import {
+  getFirestore,
+  setDoc,
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+  updateDoc,
+  arrayUnion,
+  deleteDoc,
+  
+} from "firebase/firestore";
 
 export const CoinContextProvider = ({ children }) => {
   const [allCoins, setAllCoins] = useState([]);
   const [currency, setCurrency] = useState({ name: "usd", symbol: " US$" });
+  const [favoritesCoins, setFavoritesCoins]= useState([]);
+
 
   const fetchAllCoins = async () => {
     const options = {
@@ -23,19 +38,82 @@ export const CoinContextProvider = ({ children }) => {
       .catch((err) => console.error(err));
   };
 
+  const addFavoriteCoin = async (coinId) => {
+
+    const db = getFirestore();
+    const user = getAuth().currentUser;
+
+    try {
+      if (user) {
+        const favoritesRef = doc(db, "users", user.uid, "favorites", coinId);
+        await setDoc(favoritesRef,  {coinId} );
+        getFavoritesCoins();
+      }
+      console.log(`Moneda ${coinId} agregada a favoritos con éxito.`);
+    } catch (error) {
+      console.error("Error al agregar la moneda a favoritos:", error.message);
+    }
+  };
+
+  const deleteFavoritecoin= async (coinId)=>{
+    const db = getFirestore();
+    const user = getAuth().currentUser;
+    try {
+      if(user){
+        const favoritesRef = doc(db, "users", user.uid, "favorites", coinId);
+        await deleteDoc(favoritesRef);
+        getFavoritesCoins();
+      }
+    } catch (error) {
+      console.error("Error al eliminar la moneda de favoritos:", error.message);
+    }
+  }
+
+  const getFavoritesCoins = async ()=>{
+    const db= getFirestore();
+    const user = getAuth().currentUser;
+    try {
+      if(user){
+
+        const collectionRef= collection(db, "users", user.uid, "favorites");
+        const favoritesSnapshot = await getDocs(collectionRef);
+        const favorites = favoritesSnapshot.docs.map((doc) => doc.data());
+        setFavoritesCoins(favorites);
+      }
+    } catch (error) {
+      console.error("Error al obtener las monedas favoritas:", error.message);
+      
+    }
+
+  }
+
+
+
   useEffect(() => {
     fetchAllCoins();
   }, [currency]);
 
 
+  useEffect(() => {
+    if(getAuth().currentUser){
+
+      getFavoritesCoins();
+    }
+  }, []);
+
+
+
   const contextValue = {
-    allCoins,currency,setCurrency
+    allCoins,
+    currency,
+    setCurrency,
+    addFavoriteCoin,
+    deleteFavoritecoin,
+    favoritesCoins,
+    getFavoritesCoins
   };
 
   return (
-    <CoinContext.Provider value={ contextValue }>
-      {children}
-    </CoinContext.Provider>
+    <CoinContext.Provider value={contextValue}>{children}</CoinContext.Provider>
   );
 };
-

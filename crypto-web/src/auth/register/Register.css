@@ -94,15 +94,18 @@
     width: 250px;
     height: 60px;
   }
-  .submit-container{
+  .input input {
+    font-size: 14px;
+    width: 180px;
+  }
+  .submit-container {
     margin: 30px auto;
   }
-  .forgot-password{
+  .forgot-password {
     font-size: 15px;
   }
-
 }
-@media(min-width:768px){
+@media (min-width: 768px) {
   .container-auth {
     width: 500px;
   }
@@ -113,7 +116,7 @@
     width: 400px;
     height: 70px;
   }
-  .submit-container{
+  .submit-container {
     margin: 50px auto;
   }
 }

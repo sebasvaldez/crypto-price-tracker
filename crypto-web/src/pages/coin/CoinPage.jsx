@@ -6,15 +6,24 @@ import { LineChart } from "../../components/linechart/LineChart";
 import Swal from "sweetalert2";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
-import { Icon, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
 
 export const CoinPage = () => {
   const { coinId } = useParams();
   const [coinData, setCoinData] = useState();
+
   const [historicalData, setHistoricalData] = useState();
-  const { currency } = useContext(CoinContext);
+  const {
+    currency,
+    addFavoriteCoin,
+    deleteFavoritecoin,
+    favoritesCoins,
+    getFavoritesCoins,
+  } = useContext(CoinContext);
   const { currentUser } = useContext(AuthContext);
+
+  console.log(favoritesCoins);
 
   const fetchCoinData = async () => {
     const options = {
@@ -49,9 +58,18 @@ export const CoinPage = () => {
       .catch((err) => console.error(err));
   };
 
+  const checkFavorite = (coinId) => {
+    const isItemExist = favoritesCoins.some(
+      (favorite) => favorite.coinId === coinId
+    );
+
+    return isItemExist;
+  };
+
   useEffect(() => {
     fetchCoinData();
     fetchHistoricalData();
+    getFavoritesCoins();
   }, [currency]);
 
   if (coinData && historicalData) {
@@ -63,30 +81,42 @@ export const CoinPage = () => {
             <b>
               {coinData?.name} ({coinData?.symbol.toUpperCase()})
             </b>
-            {
-              <IconButton
-                sx={{ marginLeft: "20px" }}
-                onClick={() => {
-                  if (currentUser) {
-                    Swal.fire({
-                      title: "Añadido a favoritos",
-                      icon: "success",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    });
-                  } else {
-                    Swal.fire({
-                      title: "Debes iniciar sesión para añadir un favorito",
-                      icon: "error",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    });
-                  }
-                }}
-              >
+
+            <IconButton
+              sx={{ marginLeft: "20px" }}
+              onClick={() => {
+                if (currentUser && !checkFavorite(coinId)) {
+                  Swal.fire({
+                    title: "Añadido a favoritos",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  addFavoriteCoin(coinId);
+                } else if (currentUser && checkFavorite(coinId)) {
+                  Swal.fire({
+                    title: "Eliminado de favoritos",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  deleteFavoritecoin(coinId);
+                } else {
+                  Swal.fire({
+                    title: "Debes iniciar sesión para añadir un favorito",
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                }
+              }}
+            >
+              {currentUser && checkFavorite(coinId) ? (
+                <StarIcon sx={{ fontSize: "30px", color: "yellow" }} />
+              ) : (
                 <StarBorderIcon sx={{ fontSize: "30px" }} />
-              </IconButton>
-            }
+              )}
+            </IconButton>
           </p>
         </div>
         <div className="coin-chart">

@@ -7,10 +7,10 @@ import { CoinContextProvider } from "./context/CoinContextProvider.jsx";
 import { AuthContextProvider } from "./context/AuthContextProvider.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <AuthContextProvider>
-      <CoinContextProvider>
+    <CoinContextProvider>
+      <AuthContextProvider>
         <App />
-      </CoinContextProvider>
-    </AuthContextProvider>
+      </AuthContextProvider>
+    </CoinContextProvider>
   </BrowserRouter>
 );
