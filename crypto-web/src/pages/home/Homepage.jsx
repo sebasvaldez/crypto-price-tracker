@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { CoinContext } from "../../context/CoinContext";
 import { Link } from "react-router-dom";
+import { PaginationHome } from "../../components/pagination/PaginationHome";
 import "./HomePage.css";
 
 export const Homepage = () => {
   const { allCoins, currency } = useContext(CoinContext);
 
   const [displayCoins, setDisplayCoins] = useState([]);
+  const [page, setPage] = useState(1);
   const [input, setInput] = useState("");
 
   const inputHandler = (event) => {
@@ -14,6 +16,18 @@ export const Homepage = () => {
     if (!event.target.value) {
       setDisplayCoins(allCoins);
     }
+  };
+  const cryptosPerPage = 20;
+  const indexOfLastCrypto = page * cryptosPerPage;
+  const indexOfFirstCrypto = indexOfLastCrypto - cryptosPerPage;
+  const currentCryptos = displayCoins.slice(
+    indexOfFirstCrypto,
+    indexOfLastCrypto
+  );
+
+
+  const handleChange = ( value) => {
+    setPage(value);
   };
 
   const searchHandler = async (event) => {
@@ -46,7 +60,7 @@ export const Homepage = () => {
             list="coinList"
           />
           <datalist id="coinList">
-            {allCoins.map((item) => (
+            {displayCoins.map((item) => (
               <option key={item.id} value={item.name} />
             ))}
           </datalist>
@@ -62,7 +76,7 @@ export const Homepage = () => {
           <p style={{ textAlign: "center" }}>Cambio en 24hs</p>
           <p className="market-cap">Cap. de mercado</p>
         </div>
-        {displayCoins.slice(0, 20).map((item) => (
+        {currentCryptos.map((item) => (
           <Link to={`/coin/${item.id}`} className="table-layout" key={item.id}>
             <p>{item.market_cap_rank}</p>
             <div>
@@ -87,6 +101,11 @@ export const Homepage = () => {
           </Link>
         ))}
       </div>
+      <PaginationHome
+        count={Math.ceil(displayCoins.length / cryptosPerPage)}
+        page={page}
+        onChange={handleChange}
+      />
     </div>
   );
 };

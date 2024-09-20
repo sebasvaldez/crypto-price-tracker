@@ -98,7 +98,7 @@ export const CoinPage = () => {
               {currentUser && checkFavorite(coinId) ? (
                 <StarIcon sx={{ fontSize: "30px", color: "yellow" }} />
               ) : (
-                <StarBorderIcon sx={{ fontSize: "30px" }} />
+                <StarBorderIcon sx={{ fontSize: "30px" }} alt="Agregar a favoritos" />
               )}
             </IconButton>
           </p>
