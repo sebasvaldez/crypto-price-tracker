@@ -1,0 +1,105 @@
+@media all and (min-width: 312px) {
+  .profile-box {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 90%;
+  }
+  .profile-title {
+    text-align: center;
+    font-size: 1.7rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  .profile-mail {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+    border-bottom: 1px solid rgb(226, 215, 215);
+  }
+
+  .profile-mail h4 {
+    font-size: 1.3rem;
+  }
+  .profile-mail p {
+    font-size: 1.1rem;
+    color: rgb(226, 215, 215);
+  }
+  .profile-mail button {
+    background-color: #4caf50;
+    color: white;
+    padding: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .profile-delete {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+  }
+  .profile-delete h4 {
+    font-size: 1.3rem;
+  }
+  .profile-delete p {
+    color: rgb(226, 215, 215);
+  }
+  .profile-delete button {
+    background-color: #f44336;
+    color: white;
+    padding: 0.5rem;
+    margin-top: 1rem;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .profile-mail {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .profile-mail div {
+    text-align: start;
+  }
+  .profile-delete {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+
+  .profile-delete div {
+    text-align: start;
+  }
+  .profile-delete button {
+    width: 35%;
+  }
+}
+@media all and (min-width: 1024px) {
+  .profile-box {
+    width: 85%;
+  }
+  .profile-mail h4 {
+    font-size: 1.7rem;
+  }
+  .profile-mail p {
+    font-size: 1.3rem;
+    color: rgb(226, 215, 215);
+  }
+  .profile-delete h4 {
+    font-size: 1.7rem;
+  }
+  .profile-delete p {
+    font-size: 1.3rem;
+    color: rgb(226, 215, 215);
+  }
+
+  .profile-delete button {
+    width: 25%;
+  }
+}

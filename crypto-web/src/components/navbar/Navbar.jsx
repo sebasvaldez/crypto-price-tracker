@@ -37,7 +37,6 @@ export const Navbar = () => {
         <Link to={"/"}>
           <li>Principal</li>
         </Link>
-        <li>Features</li>
         <Link
           target="_blank"
           to="https://sebasvaldez.github.io/sebasvaldez.io/"

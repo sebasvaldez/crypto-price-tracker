@@ -16,7 +16,11 @@ export const PrivateRoutes = ({ children }) => {
   }, [activeUser]);
 
   if (isLoading) {
-    return <div>Cargando...</div>;
+    return (
+      <div className="spinner">
+        <div className="spin"></div>
+      </div>
+    );
   } else {
     return activeUser ? children : <Navigate to="/login" />;
   }

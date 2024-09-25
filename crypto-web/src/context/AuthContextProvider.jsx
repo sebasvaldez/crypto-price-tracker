@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, act } from "react";
+import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { fireBaseAuth } from "../firebase/firebase.config";
 import {
@@ -11,10 +11,12 @@ import {
   getAuth,
 } from "firebase/auth";
 import { getFirestore, setDoc, doc, getDoc, } from "firebase/firestore";
+import { CoinContext } from "./CoinContext";
 
 
 export const AuthContextProvider = ({ children }) => {
 
+const { getFavoritesCoins } = useContext(CoinContext);
 
   const db = getFirestore();
 
@@ -54,7 +56,9 @@ export const AuthContextProvider = ({ children }) => {
       if (userDoc.exists()) {
         const userData = userDoc.data();
         localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("favorites", JSON.stringify(userData.favorites));
         setCurrentUser(userData);
+        getFavoritesCoins();
 
       } else {
         console.log("No se encontraron datos del usuario en Firestore.");

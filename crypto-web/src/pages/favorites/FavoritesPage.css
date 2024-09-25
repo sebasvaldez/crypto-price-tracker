@@ -1,8 +1,8 @@
 .crypto-table-fav {
-    display: flex;
-    flex-direction: column;
-    margin: 50px auto;
-    max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  margin: 50px auto;
+  max-width: 800px;
   background: linear-gradient(rgba(84, 3, 255, 015), rgba(105, 2, 153, 015));
   border-radius: 15px;
 }
@@ -33,4 +33,36 @@
 .table-layout-fav .red {
   color: #ff4646;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .table-layout-fav {
+    grid-template-columns: 0.5fr 0.5fr 3fr 1fr 1fr;
+  }
+  .market-cap {
+    display: none;
+  }
+}
+
+@media (max-width: 450px) {
+  .crypto-table-fav {
+    max-width: 400px;
+  }
+
+  .table-layout-fav {
+    grid-template-columns: 0.5fr 0.5fr 3fr 1fr 1fr;
+  }
+
+  .table-layout-fav div img {
+    width: 25px;
+  }
+  .table-layout-fav {
+    font-size: 13px;
+  }
+  .hero {
+    margin: 50px auto;
+  }
+  .hero form input {
+    width: 100px;
+  }
 }

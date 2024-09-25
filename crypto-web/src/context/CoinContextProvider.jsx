@@ -127,6 +127,14 @@ export const CoinContextProvider = ({ children }) => {
   };
 
   return (
-    <CoinContext.Provider value={contextValue}>{children}</CoinContext.Provider>
+    <CoinContext.Provider value={{ allCoins,
+      currency,
+      setCurrency,
+      addFavoriteCoin,
+      deleteFavoritecoin,
+      favoritesCoins,
+      getFavoritesCoins,
+      fetchCoin,
+      coinData,}}>{children}</CoinContext.Provider>
   );
 };

@@ -100,7 +100,17 @@
 
   }
   .table-layout{
+    
     font-size: 13px;
+  }
+  .price{
+    text-align: right;
+  }
+  .change24{
+    text-align: right;
+  }
+  .table-layout p{
+    margin-right: 10px;
   }
   .hero{
     margin: 50px auto;
