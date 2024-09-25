@@ -10,18 +10,17 @@ import {
   onAuthStateChanged,
   getAuth,
 } from "firebase/auth";
-import { getFirestore, setDoc, doc, getDoc, } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
 import { CoinContext } from "./CoinContext";
 
-
 export const AuthContextProvider = ({ children }) => {
-
-const { getFavoritesCoins } = useContext(CoinContext);
+  const { getFavoritesCoins } = useContext(CoinContext);
 
   const db = getFirestore();
 
   const [currentUser, setCurrentUser] = useState(null);
   const [activeUser, setActiveUser] = useState(null);
+  const [error, setError] = useState(null);
 
   const registerUser = async (name, email, password) => {
     try {
@@ -40,7 +39,8 @@ const { getFavoritesCoins } = useContext(CoinContext);
       });
       logoutUser();
     } catch (error) {
-      console.log(error);
+      console.error("Error al registrar usuario:", error.message);
+      setError(error.message);
     }
   };
 
@@ -59,14 +59,16 @@ const { getFavoritesCoins } = useContext(CoinContext);
         localStorage.setItem("favorites", JSON.stringify(userData.favorites));
         setCurrentUser(userData);
         getFavoritesCoins();
-
       } else {
         console.log("No se encontraron datos del usuario en Firestore.");
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error.message);
+      setError(error.message);
     }
   };
+
+  //Login con Google, aun no se si lo usaré
 
   const loginWithGoogle = async () => {
     try {
@@ -95,8 +97,9 @@ const { getFavoritesCoins } = useContext(CoinContext);
     logoutUser,
     currentUser,
     activeUser,
+    setError,
+    error,
   };
-
 
   useEffect(() => {
     const suscribed = onAuthStateChanged(fireBaseAuth, (user) => {
@@ -104,7 +107,7 @@ const { getFavoritesCoins } = useContext(CoinContext);
         setActiveUser(null);
       } else {
         setActiveUser(user);
-        // console.log(user);
+        setError(null);
       }
     });
     return () => suscribed();

@@ -1,17 +1,24 @@
-import { Box, Button } from "@mui/material";
+import { useContext } from "react";
+import {  Button } from "@mui/material";
 import "./ProfilePage.css";
+import { AuthContext } from "../../context/AuthContext";
 
 export const ProfilePage = () => {
+
+  const { currentUser } = useContext(AuthContext);
+
+
+
   return (
     <div className="profile-box" sx={{ margin: "20px", padding: "20px" }}>
       <h2 className="profile-title">
-        Inicio de sesión y seguridad de Marcelo sebastian Valdez
+        Inicio de sesión y seguridad de {currentUser?.name}
       </h2>
 
       <div className="profile-mail">
         <div>
           <h4>Correo electrónico</h4>
-          <p>sebas@gmail.com</p>
+          <p>{currentUser?.email}</p>
         </div>
         <Button
           variant="outlined"

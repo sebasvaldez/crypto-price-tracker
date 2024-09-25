@@ -1,14 +1,15 @@
 import { AuthContext } from "../../context/AuthContext";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { Box,Alert } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EmailIcon from "@mui/icons-material/Email";
 import HttpsIcon from "@mui/icons-material/Https";
 import "./Register.css";
 
 export const Register = () => {
-  const { registerUser } = useContext(AuthContext);
-  const navigate= useNavigate();
+  const { registerUser, error, setError } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [user, setUset] = useState({
     name: "",
     email: "",
@@ -22,13 +23,36 @@ export const Register = () => {
     });
   };
 
-  const handleSubmit = () => {
-    registerUser(user.name, user.email, user.password);
-    navigate("/");
+  const handleSubmit = async () => {
+    await registerUser(user.name, user.email, user.password);
+    if (!error) {
+      navigate("/login");
+    } else {
+    }
+    console.log(error);
+
   };
+
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, setError]);
+
+
+
 
   return (
     <div className="container-auth">
+      <Box sx={{ mt: 2, mb: 2 }}>
+        <Box sx={{ display: error ? "block" : "none" }}>
+          <Alert severity="error">{error ? error : ""}</Alert>
+        </Box>
+      </Box>
       <div className="header-auth">
         <div className="text">Registrarse</div>
         <div className="underline"></div>
