@@ -61,8 +61,29 @@
   .profile-mail {
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
   }
+  .profile-mail:nth-child(3) {
+    flex: 1 1 100%;
+  }
+  .MuiCollapse-wrapperInner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .profile-collapse {
+    width: 99%;
+
+  }
+  .profile-modifier-buttons{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+  }
+
   .profile-mail div {
     text-align: start;
   }
@@ -70,7 +91,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
   }
 
   .profile-delete div {

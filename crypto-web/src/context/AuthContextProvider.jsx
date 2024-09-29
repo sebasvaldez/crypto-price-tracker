@@ -9,6 +9,8 @@ import {
   signOut,
   onAuthStateChanged,
   getAuth,
+  updateEmail,
+  updatePassword,
 } from "firebase/auth";
 import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
 import { CoinContext } from "./CoinContext";
@@ -21,6 +23,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeUser, setActiveUser] = useState(null);
   const [error, setError] = useState(null);
+  const [activeUserError, setActiveUserError] = useState(null);
 
   const registerUser = async (name, email, password) => {
     try {
@@ -90,6 +93,18 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const updateUserEmail = (email) => {
+    if (activeUser) {
+      try {
+        updateEmail(activeUser, email);
+        console.log("Correo actualizado con exito");
+      } catch (error) {
+        console.log(error);
+        setActiveUserError(error.message);
+      }
+    }
+  };
+
   const contextValue = {
     registerUser,
     loginUser,
@@ -99,6 +114,7 @@ export const AuthContextProvider = ({ children }) => {
     activeUser,
     setError,
     error,
+    updateUserEmail,
   };
 
   useEffect(() => {

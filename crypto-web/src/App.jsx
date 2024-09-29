@@ -50,7 +50,7 @@ const App = () => {
           path="/profile"
           element={
             <PrivateRoutes>
-              <ProfilePage/>
+              <ProfilePage />
             </PrivateRoutes>
           }
         />
