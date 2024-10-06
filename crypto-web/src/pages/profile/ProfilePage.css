@@ -90,12 +90,14 @@
   .profile-delete {
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 30px;
   }
 
   .profile-delete div {
+
     text-align: start;
+
   }
   .profile-delete button {
     width: 35%;

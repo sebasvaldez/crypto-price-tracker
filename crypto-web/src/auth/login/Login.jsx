@@ -1,12 +1,13 @@
-import { Grid2, Alert, Box } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import HttpsIcon from "@mui/icons-material/Https";
 import { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
 
 export const Login = () => {
-  const { loginUser, error, setError } = useContext(AuthContext);
+  const { loginUser, error, setError, activeUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -42,46 +43,54 @@ export const Login = () => {
     }
   }, [error, setError]);
 
-  return (
-    <div className="container-auth">
-      <Box sx={{ mt: 2, mb: 2 }}>
-        <Box sx={{ display: error ? "block" : "none" }}>
-          <Alert severity="error">{error ? error : ""}</Alert>
+  if (!activeUser && !error) {
+    return (
+      <div className="container-auth">
+        <Box sx={{ mt: 2, mb: 2 }}>
+          <Box sx={{ display: error ? "block" : "none" }}>
+            <Alert severity="error">{error ? error : ""}</Alert>
+          </Box>
         </Box>
-      </Box>
 
-      <div className="header-auth">
-        <div className="text">Ingresar</div>
-        <div className="underline"></div>
-      </div>
-      <div className="inputs">
-        <div className="input">
-          <EmailIcon sx={{ marginX: "10px" }} />
-          <input
-            onChange={handleChange}
-            name="email"
-            type="email"
-            placeholder="Email"
-          />
+        <div className="header-auth">
+          <div className="text">Ingresar</div>
+          <div className="underline"></div>
         </div>
-        <div className="input">
-          <HttpsIcon sx={{ marginX: "10px" }} />
-          <input
-            onChange={handleChange}
-            name="password"
-            type="password"
-            placeholder="Contraseña"
-          />
+        <div className="inputs">
+          <div className="input">
+            <EmailIcon sx={{ marginX: "10px" }} />
+            <input
+              onChange={handleChange}
+              name="email"
+              type="email"
+              placeholder="Email"
+            />
+          </div>
+          <div className="input">
+            <HttpsIcon sx={{ marginX: "10px" }} />
+            <input
+              onChange={handleChange}
+              name="password"
+              type="password"
+              placeholder="Contraseña"
+            />
+          </div>
+        </div>
+        <div className="forgot-password">
+          ¿Todavía no tenes cuenta? <Link to="/register">Click aquí!</Link>
+        </div>
+        <div className="submit-container">
+          <div onClick={handleSubmit} className="submit">
+            Ingresar
+          </div>
         </div>
       </div>
-      <div className="forgot-password">
-        Perdiste la contraseña? <span>Click aquí!</span>
+    );
+  } else {
+    return (
+      <div className="spinner">
+        <div className="spin"></div>
       </div>
-      <div className="submit-container">
-        <div onClick={handleSubmit} className="submit">
-          Ingresar
-        </div>
-      </div>
-    </div>
-  );
+    );
+  }
 };

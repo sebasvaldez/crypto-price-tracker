@@ -1,5 +1,6 @@
 import { AuthContext } from "../../context/AuthContext";
 import { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { Box,Alert } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -87,7 +88,7 @@ export const Register = () => {
         </div>
       </div>
       <div className="forgot-password">
-        Perdiste la contraseña? <span>Click aquí!</span>
+        ¿Ya tenes cuenta? <Link to="/login">Click aquí!</Link>
       </div>
       <div className="submit-container">
         <div onClick={handleSubmit} className="submit">

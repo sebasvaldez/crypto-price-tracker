@@ -23,7 +23,6 @@ export const CoinPage = () => {
   const { currentUser } = useContext(AuthContext);
   const { fetchCoin, coinData } = useContext(CoinContext);
 
-
   const fetchHistoricalData = async () => {
     const options = {
       method: "GET",
@@ -98,7 +97,10 @@ export const CoinPage = () => {
               {currentUser && checkFavorite(coinId) ? (
                 <StarIcon sx={{ fontSize: "30px", color: "yellow" }} />
               ) : (
-                <StarBorderIcon sx={{ fontSize: "30px" }} alt="Agregar a favoritos" />
+                <StarBorderIcon
+                  sx={{ fontSize: "30px" }}
+                  alt="Agregar a favoritos"
+                />
               )}
             </IconButton>
           </p>

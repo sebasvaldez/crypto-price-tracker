@@ -25,7 +25,6 @@ export const Homepage = () => {
     indexOfLastCrypto
   );
 
-
   const handleChange = (event, value) => {
     setPage(value);
   };
@@ -72,8 +71,8 @@ export const Homepage = () => {
         <div className="table-layout">
           <p>#</p>
           <p>Moneda</p>
-          <p className="price" >Precio</p>
-          <p className="change24" >Cambio en 24hs</p>
+          <p className="price">Precio</p>
+          <p className="change24">Cambio en 24hs</p>
           <p className="market-cap">Cap. de mercado</p>
         </div>
         {currentCryptos.map((item) => (
@@ -86,7 +85,7 @@ export const Homepage = () => {
               />
               <p>{item.name + "_" + item.symbol}</p>
             </div>
-            <p style={{textAlign:"center"}}>
+            <p style={{ textAlign: "center" }}>
               {currency.symbol} {item.current_price.toLocaleString()}
             </p>
             <p

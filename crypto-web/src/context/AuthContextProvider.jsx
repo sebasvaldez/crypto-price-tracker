@@ -4,13 +4,13 @@ import { fireBaseAuth } from "../firebase/firebase.config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
   getAuth,
   updateEmail,
+  EmailAuthProvider,
   updatePassword,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
 import { CoinContext } from "./CoinContext";
@@ -71,17 +71,6 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  //Login con Google, aun no se si lo usaré
-
-  const loginWithGoogle = async () => {
-    try {
-      const respGoogle = new GoogleAuthProvider();
-      const resp = await signInWithPopup(fireBaseAuth, respGoogle);
-      console.log(resp);
-      return resp;
-    } catch (error) {}
-  };
-
   const logoutUser = async () => {
     try {
       await signOut(fireBaseAuth);
@@ -93,28 +82,44 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  const updateUserEmail = (email) => {
-    if (activeUser) {
-      try {
-        updateEmail(activeUser, email);
-        console.log("Correo actualizado con exito");
-      } catch (error) {
-        console.log(error);
-        setActiveUserError(error.message);
-      }
+  const comparePasswords = (currentPassword, newPassword) => {
+    if (currentPassword == newPassword) {
+      return true;
+    } else {
+      return false;
     }
   };
+
+  const updateUserPassword = async (currentPassword, newPassword) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      currentPassword
+    );
+
+    try {
+      await reauthenticateWithCredential(user, credential);
+      await updatePassword(user, newPassword);
+      console.log("Contraseña actualizada correctamente");
+      logoutUser();
+    } catch (error) {
+      console.error("Error al actualizar contraseña:", error);
+      setError(error.message);
+    }
+  };
+  // console.log(error)
 
   const contextValue = {
     registerUser,
     loginUser,
-    loginWithGoogle,
     logoutUser,
     currentUser,
     activeUser,
     setError,
     error,
-    updateUserEmail,
+    updateUserPassword,
+    comparePasswords,
   };
 
   useEffect(() => {
