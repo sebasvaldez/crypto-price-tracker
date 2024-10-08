@@ -4,8 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Swal from "sweetalert2";
 
 export const UserPassword = ({ isMedium }) => {
-  const { updateUserPassword, comparePasswords, error, setError } =
-    useContext(AuthContext);
+  const { updateUserPassword, error } = useContext(AuthContext);
 
   const [showInputPassword, setShowInputPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -22,35 +21,58 @@ export const UserPassword = ({ isMedium }) => {
     setShowInputPassword(!showInputPassword);
   };
 
-  const handleUpdatePassword = async () => {
-    setError(null);
-    if (comparePasswords(currentPassword, newPassword)) {
+  const checkPasswords = () => {
+    if (currentPassword === "" || newPassword === "") {
+      Swal.fire({
+        title: "Error",
+        text: "Debe completar todos los campos",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+      return false;
+    } else if (currentPassword === newPassword) {
       Swal.fire({
         title: "Error",
         text: "La nueva contraseña no puede ser igual a la actual",
         icon: "error",
         confirmButtonText: "Aceptar",
       });
-
+      return false;
+    } else if (newPassword.length < 6) {
+      Swal.fire({
+        title: "Error",
+        text: "La nueva contraseña debe tener al menos 6 caracteres",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+      return false;
     } else {
-      await updateUserPassword(currentPassword, newPassword);
+      return true;
+    }
+  };
 
-      if (error) {
-        Swal.fire({
-          title: "Error",
-          text: error,
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
-      } else {
-        Swal.fire({
-          title: "Contraseña actualizada",
-          text: "Por favor inicie sesión nuevamente",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-        });
-      }
-      
+  const handleUpdatePassword = (currentPassword, newPassword) => {
+    if (checkPasswords()) {
+      updateUserPassword(currentPassword, newPassword);
+    } else {
+      return;
+    }
+
+    if (error) {
+      Swal.fire({
+        title: "Error",
+        text: `${error}`,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+      return;
+    } else if (!error) {
+      Swal.fire({
+        title: "Contraseña actualizada",
+        text: "Su contraseña ha sido actualizada correctamente",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+      });
     }
   };
 
@@ -105,7 +127,7 @@ export const UserPassword = ({ isMedium }) => {
             variant="outlined"
             color="white"
             sx={{ fontSize: "12px", padding: "5px", marginRight: "20px" }}
-            onClick={handleUpdatePassword}
+            onClick={() => handleUpdatePassword(currentPassword, newPassword)}
           >
             Modificar
           </Button>

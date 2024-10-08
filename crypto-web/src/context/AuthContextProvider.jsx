@@ -82,33 +82,44 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  const comparePasswords = (currentPassword, newPassword) => {
-    if (currentPassword == newPassword) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+
+  
+
+
+
 
   const updateUserPassword = async (currentPassword, newPassword) => {
+    setError(null);
     const auth = getAuth();
     const user = auth.currentUser;
+
     const credential = EmailAuthProvider.credential(
       user.email,
       currentPassword
     );
-
     try {
       await reauthenticateWithCredential(user, credential);
       await updatePassword(user, newPassword);
       console.log("Contraseña actualizada correctamente");
       logoutUser();
     } catch (error) {
-      console.error("Error al actualizar contraseña:", error);
       setError(error.message);
+      console.error("Error al actualizar la contraseña:", error);
+      if (error.code === "auth/wrong-password") {
+        console.log("La contraseña actual es incorrecta.");
+      } else if (error.code === "auth/network-request-failed") {
+        console.log(
+          "Ha ocurrido un error de conexión. Por favor, verifica tu conexión a internet e inténtalo de nuevo."
+        );
+      } else {
+        console.log(
+          "Ocurrió un error inesperado. Por favor, intenta más tarde."
+        );
+      }
     }
   };
-  // console.log(error)
+
+  //console.log(error);
 
   const contextValue = {
     registerUser,
@@ -119,7 +130,6 @@ export const AuthContextProvider = ({ children }) => {
     setError,
     error,
     updateUserPassword,
-    comparePasswords,
   };
 
   useEffect(() => {
@@ -144,6 +154,15 @@ export const AuthContextProvider = ({ children }) => {
       setCurrentUser(null);
     }
   }, []);
+
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

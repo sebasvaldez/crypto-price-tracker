@@ -61,7 +61,7 @@ export const CoinContextProvider = ({ children }) => {
         await setDoc(favoritesRef, { coinId });
         getFavoritesCoins();
       }
-      console.log(`Moneda ${coinId} agregada a favoritos con éxito.`);
+      
     } catch (error) {
       console.error("Error al agregar la moneda a favoritos:", error.message);
     }
