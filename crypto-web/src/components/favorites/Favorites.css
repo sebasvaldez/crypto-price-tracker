@@ -34,6 +34,16 @@
   color: #ff4646;
   text-align: center;
 }
+.no-fav-img{
+
+  display: block;
+  margin: 30px auto;
+
+  width: 75%;
+}
+.no-fav-img img{
+  width: 100%;
+}
 
 @media (max-width: 768px) {
   .table-layout-fav {
@@ -41,6 +51,9 @@
   }
   .market-cap {
     display: none;
+  }
+  .no-fav-img{
+    width: 70%;
   }
 }
 

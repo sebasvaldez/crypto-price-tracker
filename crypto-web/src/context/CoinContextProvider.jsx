@@ -114,17 +114,6 @@ export const CoinContextProvider = ({ children }) => {
     }
   }, []);
 
-  const contextValue = {
-    allCoins,
-    currency,
-    setCurrency,
-    addFavoriteCoin,
-    deleteFavoritecoin,
-    favoritesCoins,
-    getFavoritesCoins,
-    fetchCoin,
-    coinData,
-  };
 
   return (
     <CoinContext.Provider value={{ allCoins,

@@ -8,6 +8,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import { IconButton } from "@mui/material";
 import { AuthContext } from "../../context/AuthContext";
+import { Spinner } from "../../components/spinner/Spinner";
 
 export const CoinPage = () => {
   const { coinId } = useParams();
@@ -148,9 +149,7 @@ export const CoinPage = () => {
     );
   } else {
     return (
-      <div className="spinner">
-        <div className="spin"></div>
-      </div>
+      <Spinner />
     );
   }
 };

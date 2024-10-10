@@ -3,17 +3,18 @@ import { AuthContext } from "../../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
 export const PrivateRoutes = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading, ] = useState(false);
 
-  const { activeUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
+ 
 
   useEffect(() => {
-    if (activeUser) {
+    if (currentUser) {
       setIsLoading(false);
     } else {
       setIsLoading(true);
     }
-  }, [activeUser]);
+  }, [currentUser]);
 
   if (isLoading) {
     return (
@@ -22,6 +23,6 @@ export const PrivateRoutes = ({ children }) => {
       </div>
     );
   } else {
-    return activeUser ? children : <Navigate to="/login" />;
+    return currentUser ? children : <Navigate to="/login" />;
   }
 };

@@ -25,10 +25,11 @@ export const AuthButtons = () => {
     setAnchorEl(null);
   };
 
-  const handleLogOut = () => {
+  const handleLogOut = (e) => {
+ 
     logoutUser();
-    navigate("/");
     handleClose();
+    // navigate("/login");
   };
 
   return (
@@ -62,12 +63,25 @@ export const AuthButtons = () => {
           {activeUser ? (
             <div>
               <Link to="/profile">
-                <MenuItem sx={{borderBottom:"1px solid #989898"}} onClick={handleClose}>{currentUser?.name}</MenuItem>
+                <MenuItem
+                  sx={{ borderBottom: "1px solid #989898" }}
+                  onClick={handleClose}
+                >
+                  {currentUser?.name}
+                </MenuItem>
               </Link>
               <Link to="/favorites">
                 <MenuItem onClick={handleClose}>Favoritos</MenuItem>
               </Link>
-              <MenuItem onClick={handleLogOut}>Cerrar sesión</MenuItem>
+              <Link to="/login">
+                <MenuItem
+                  onClick={() => {
+                    handleLogOut();
+                  }}
+                >
+                  Cerrar sesión
+                </MenuItem>
+              </Link>
             </div>
           ) : (
             <div>

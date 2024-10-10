@@ -9,10 +9,13 @@ import { FavoritesPage } from "./pages/favorites/FavoritesPage";
 import { ProfilePage } from "./pages/profile/ProfilePage";
 import { PrivateRoutes } from "./components/privateRoutes/PrivateRoutes";
 import { PublicRoutes } from "./components/publicRoutes/PublicRoutes";
+import { Box } from "@mui/material";
 
 const App = () => {
   return (
-    <div className="app">
+    <div className="app"
+  
+    >
       <Navbar />
       {/* Rutas publicas*/}
 

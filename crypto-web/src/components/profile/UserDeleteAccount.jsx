@@ -1,17 +1,35 @@
-import { useState } from "react";
-import {
-    Button,
-    Collapse,
-    TextField,
-  } from "@mui/material";
+import { useState, useContext } from "react";
+import { Button, Collapse, TextField } from "@mui/material";
+import { AuthContext } from "../../context/AuthContext";
+import Swal from "sweetalert2";
 
-export const UserDeleteAccount = ({isMedium}) => {
-    const [showDeleteAccount, setShowDeleteAccount] = useState(false);
+export const UserDeleteAccount = ({ isMedium }) => {
+  const [showDeleteAccount, setShowDeleteAccount] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
 
-    
+  const { deleteUserAccount, error } = useContext(AuthContext);
+
+  const handleCurrentPassword = (e) => {
+    setCurrentPassword(e.target.value);
+  };
+
+  const handleDeleteAccount = (currentPassword) => {
+    deleteUserAccount(currentPassword);
+
+    if (error) {
+      Swal.fire({
+        title: "Error",
+        text: `${error}`,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
+    }
+  };
+
   const handleInputdeleteAccount = () => {
     setShowDeleteAccount(!showDeleteAccount);
   };
+
   return (
     <div className="profile-delete">
       <div>
@@ -42,6 +60,9 @@ export const UserDeleteAccount = ({isMedium}) => {
           }}
           placeholder="Contraseña"
           type="password"
+          margin="dense"
+          onChange={handleCurrentPassword}
+          value={currentPassword}
         />
 
         <div className="profile-modifier-buttons">
@@ -49,6 +70,7 @@ export const UserDeleteAccount = ({isMedium}) => {
             variant="outlined"
             color="white"
             sx={{ fontSize: "12px", padding: "5px", marginRight: "20px" }}
+            onClick={() => handleDeleteAccount(currentPassword)}
           >
             eliminar cuenta
           </Button>
@@ -56,6 +78,10 @@ export const UserDeleteAccount = ({isMedium}) => {
             variant="outlined"
             color="white"
             sx={{ fontSize: "12px", padding: "5px" }}
+            onClick={() => {
+              handleInputdeleteAccount();
+              setCurrentPassword("");
+            }}
           >
             Cancelar
           </Button>

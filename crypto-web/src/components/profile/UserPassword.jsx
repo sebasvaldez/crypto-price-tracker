@@ -135,6 +135,11 @@ export const UserPassword = ({ isMedium }) => {
             variant="outlined"
             color="white"
             sx={{ fontSize: "12px", padding: "5px" }}
+            onClick={() => {
+              handleInputPassword();
+              setCurrentPassword("");
+              setNewPassword("");
+            }}
           >
             Cancelar
           </Button>

@@ -11,8 +11,15 @@ import {
   EmailAuthProvider,
   updatePassword,
   reauthenticateWithCredential,
+  deleteUser,
 } from "firebase/auth";
-import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  setDoc,
+  doc,
+  getDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { CoinContext } from "./CoinContext";
 
 export const AuthContextProvider = ({ children }) => {
@@ -26,6 +33,13 @@ export const AuthContextProvider = ({ children }) => {
   const [activeUserError, setActiveUserError] = useState(null);
 
   const registerUser = async (name, email, password) => {
+    if (name == "" || email == "" || password == "") {
+      setError("Todos los campos son obligatorios");
+      return;
+    } else if (name.length < 6) {
+      setError("El nombre debe tener al menos 6 caracteres");
+      return;
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(
         fireBaseAuth,
@@ -41,13 +55,17 @@ export const AuthContextProvider = ({ children }) => {
         uid: user.uid,
       });
       logoutUser();
+      return user;
     } catch (error) {
-      console.error("Error al registrar usuario:", error.message);
-      setError(error.message);
+      setError(error.code);
     }
   };
 
   const loginUser = async (email, password) => {
+    if (email === "" || password === "") {
+      setError("Todos los campos son obligatorios");
+      return;
+    }
     try {
       const userCredential = await signInWithEmailAndPassword(
         fireBaseAuth,
@@ -67,7 +85,7 @@ export const AuthContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error.message);
-      setError(error.message);
+      setError(error.code);
     }
   };
 
@@ -76,17 +94,12 @@ export const AuthContextProvider = ({ children }) => {
       await signOut(fireBaseAuth);
       localStorage.removeItem("user");
       localStorage.removeItem("favorites");
+
       setCurrentUser(null);
     } catch (error) {
       console.log(error);
     }
   };
-
-
-  
-
-
-
 
   const updateUserPassword = async (currentPassword, newPassword) => {
     setError(null);
@@ -119,6 +132,58 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const deleteUserAccount = async (currentPassword) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      currentPassword
+    );
+    try {
+      await reauthenticateWithCredential(user, credential);
+
+      const userDocRef = doc(db, "users", user.uid);
+      await deleteDoc(userDocRef);
+      await deleteUser(user);
+
+      logoutUser();
+    } catch (error) {
+      console.error("Error al eliminar la cuenta:", error);
+      if (error.code === "auth/invalid-credential") {
+        setError("La contraseña ingresada es incorrecta.");
+      } else if (error.code === "auth/network-request-failed") {
+        setError(
+          "Ha ocurrido un error de conexión. Por favor, verifica tu conexión a internet e inténtalo de nuevo."
+        );
+      } else if (error.code === "auth/missing-password") {
+        setError(
+          "Debes ingresar tu contraseña actual para eliminar tu cuenta."
+        );
+      } else {
+        setError("Ocurrió un error inesperado. Por favor, intenta más tarde.");
+      }
+    }
+  };
+
+  const handleErrorTranslator = (error) => {
+    switch (error) {
+      case "auth/invalid-credential":
+        return "Credenciales inválidas";
+      case "auth/missing-password":
+        return "debe escribir una contraseña";
+      case "auth/invalid-email":
+        return "Email inválido";
+      case "auth/weak-password":
+        return "Contraseña débil, debe tener al menos 6 caracteres";
+      case "auth/email-already-in-use":
+        return "Email ya registrado";
+      case "auth/too-many-requests":
+        return "Demasiados intentos fallidos, intente más tarde";
+      default:
+        return error;
+    }
+  };
+
   //console.log(error);
 
   const contextValue = {
@@ -130,6 +195,8 @@ export const AuthContextProvider = ({ children }) => {
     setError,
     error,
     updateUserPassword,
+    deleteUserAccount,
+    handleErrorTranslator,
   };
 
   useEffect(() => {
@@ -154,15 +221,6 @@ export const AuthContextProvider = ({ children }) => {
       setCurrentUser(null);
     }
   }, []);
-
-  useEffect(() => {
-    if (error) {
-      const timer = setTimeout(() => {
-        setError(null);
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [error]);
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

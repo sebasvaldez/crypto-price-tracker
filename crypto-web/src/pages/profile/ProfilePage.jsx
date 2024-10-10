@@ -1,7 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useMediaQuery } from "@mui/material";
-import { UserMail, UserPassword,UserDeleteAccount } from "../../components/profile/index";
+import { useMediaQuery, Box } from "@mui/material";
+import {
+  UserMail,
+  UserPassword,
+  UserDeleteAccount,
+} from "../../components/profile/index";
 
 import "./ProfilePage.css";
 
