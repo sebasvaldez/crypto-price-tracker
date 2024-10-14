@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
 import { Spinner } from "../../components/spinner/Spinner";
-import ReCaptcha from "react-google-recaptcha";
+import { ReCaptcha } from "../../components/re-captcha/ReCaptcha";
 
 export const Login = () => {
   const {
@@ -15,7 +15,6 @@ export const Login = () => {
     setError,
     handleErrorTranslator,
     activeUser,
-    setCaptchaToken,
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -24,12 +23,6 @@ export const Login = () => {
     email: "",
     password: "",
   });
-
-  const captcha = useRef(null);
-
-  const handleRecaptcha = async (value) => {
-    setCaptchaToken(value);
-  };
 
   const handleChange = (e) => {
     setEmail({
@@ -92,11 +85,8 @@ export const Login = () => {
           </div>
         </div>
         <div className="recaptcha">
-          <ReCaptcha
-            ref={captcha}
-            onChange={handleRecaptcha}
-            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-          />
+
+          <ReCaptcha  />
         </div>
         <div className="forgot-password">
           <p> ¿Todavía no tenes cuenta?</p>
