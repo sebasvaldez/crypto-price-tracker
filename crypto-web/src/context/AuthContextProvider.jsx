@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext } from "react";
+
 import { AuthContext } from "./AuthContext";
 import { fireBaseAuth } from "../firebase/firebase.config";
 import {
@@ -7,7 +8,6 @@ import {
   signOut,
   onAuthStateChanged,
   getAuth,
-  updateEmail,
   EmailAuthProvider,
   updatePassword,
   reauthenticateWithCredential,
@@ -30,7 +30,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeUser, setActiveUser] = useState(null);
   const [error, setError] = useState(null);
-  const [activeUserError, setActiveUserError] = useState(null);
+  const [captchaToken, setCaptchaToken] = useState(null);
 
   const registerUser = async (name, email, password) => {
     if (name == "" || email == "" || password == "") {
@@ -38,6 +38,9 @@ export const AuthContextProvider = ({ children }) => {
       return;
     } else if (name.length < 6) {
       setError("El nombre debe tener al menos 6 caracteres");
+      return;
+    } else if (captchaToken === null) {
+      setError("Debes verificar que no eres un robot");
       return;
     }
     try {
@@ -64,6 +67,9 @@ export const AuthContextProvider = ({ children }) => {
   const loginUser = async (email, password) => {
     if (email === "" || password === "") {
       setError("Todos los campos son obligatorios");
+      return;
+    } else if (captchaToken === null) {
+      setError("Debes verificar que no eres un robot");
       return;
     }
     try {
@@ -197,6 +203,7 @@ export const AuthContextProvider = ({ children }) => {
     updateUserPassword,
     deleteUserAccount,
     handleErrorTranslator,
+    setCaptchaToken,
   };
 
   useEffect(() => {

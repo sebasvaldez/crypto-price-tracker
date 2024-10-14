@@ -13,7 +13,7 @@ export const PaginationHome = ({ count, page, onChange }) => {
           "&.Mui-selected": { backgroundColor: "grey", color: "black" },
         },
         marginTop: "30px",
-        maxWidth: "90%",
+        maxWidth: "100%",
         alignItems: "center",
       }}
     >

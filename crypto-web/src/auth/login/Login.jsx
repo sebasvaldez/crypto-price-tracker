@@ -1,15 +1,22 @@
+import { useState, useContext, useEffect, useRef } from "react";
 import { Alert, Box } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import HttpsIcon from "@mui/icons-material/Https";
-import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
 import { Spinner } from "../../components/spinner/Spinner";
+import ReCaptcha from "react-google-recaptcha";
 
 export const Login = () => {
-  const { loginUser, error, setError, handleErrorTranslator, activeUser } =
-    useContext(AuthContext);
+  const {
+    loginUser,
+    error,
+    setError,
+    handleErrorTranslator,
+    activeUser,
+    setCaptchaToken,
+  } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -17,6 +24,12 @@ export const Login = () => {
     email: "",
     password: "",
   });
+
+  const captcha = useRef(null);
+
+  const handleRecaptcha = async (value) => {
+    setCaptchaToken(value);
+  };
 
   const handleChange = (e) => {
     setEmail({
@@ -43,7 +56,7 @@ export const Login = () => {
     }
   }, [error, setError]);
 
-  if (activeUser === null ) {
+  if (activeUser === null) {
     return (
       <div className="container-auth">
         <Box sx={{ mt: 2, mb: 2 }}>
@@ -78,8 +91,16 @@ export const Login = () => {
             />
           </div>
         </div>
+        <div className="recaptcha">
+          <ReCaptcha
+            ref={captcha}
+            onChange={handleRecaptcha}
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+          />
+        </div>
         <div className="forgot-password">
-          <p> ¿Todavía no tenes cuenta?</p> <Link to="/register">Click aquí!</Link>
+          <p> ¿Todavía no tenes cuenta?</p>
+          <Link to="/register">Click aquí!</Link>
         </div>
         <div className="submit-container">
           <div onClick={handleSubmit} className="submit">
@@ -88,7 +109,7 @@ export const Login = () => {
         </div>
       </div>
     );
-  } else{
+  } else {
     return <Spinner />;
   }
 };
