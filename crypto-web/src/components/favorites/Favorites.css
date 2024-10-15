@@ -53,7 +53,7 @@
     display: none;
   }
   .no-fav-img{
-    width: 70%;
+    width: 40%;
   }
 }
 
@@ -77,5 +77,10 @@
   }
   .hero form input {
     width: 100px;
+  }
+}
+@media all and (min-width: 769px) {
+  .no-fav-img{
+    width: 20%;
   }
 }

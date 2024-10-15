@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
 import { Spinner } from "../../components/spinner/Spinner";
-import { ReCaptcha } from "../../components/re-captcha/ReCaptcha";
+// import { ReCaptcha } from "../../components/re-captcha/ReCaptcha";
 
 export const Login = () => {
   const {
@@ -84,10 +84,10 @@ export const Login = () => {
             />
           </div>
         </div>
-        <div className="recaptcha">
+        {/* <div className="recaptcha">
 
           <ReCaptcha  />
-        </div>
+        </div> */}
         <div className="forgot-password">
           <p> ¿Todavía no tenes cuenta?</p>
           <Link to="/register">Click aquí!</Link>

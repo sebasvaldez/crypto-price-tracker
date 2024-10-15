@@ -1,11 +1,11 @@
 import { useEffect, useRef, useContext } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { AuthContext } from "../../context/AuthContext";
+// import { AuthContext } from "../../context/AuthContext";
 
 
 export const ReCaptcha = () => {
 
-  const { setCaptchaToken } = useContext(AuthContext);
+  // const { setCaptchaToken } = useContext(AuthContext);
 
 
   const captcha = useRef(null);

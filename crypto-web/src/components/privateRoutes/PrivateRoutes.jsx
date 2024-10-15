@@ -1,28 +1,26 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Navigate } from "react-router-dom";
+import { Spinner } from "../spinner/Spinner";
 
 export const PrivateRoutes = ({ children }) => {
-  const [isLoading, setIsLoading, ] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
-  const { currentUser } = useContext(AuthContext);
- 
+  const { currentUser, activeUser, isLoading } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (currentUser) {
-      setIsLoading(false);
-    } else {
-      setIsLoading(true);
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (activeUser) {
+  //     setIsLoading(false);
+  //   } else {
+  //     setIsLoading(true);
+  //   }
+  // }, []);
 
-  if (isLoading) {
-    return (
-      <div className="spinner">
-        <div className="spin"></div>
-      </div>
-    );
-  } else {
-    return currentUser ? children : <Navigate to="/login" />;
+  if (isLoading ) {
+    return <Spinner />;
   }
+  if(!currentUser){
+    return <Navigate to="/login" />;
+  }
+  return children;
 };

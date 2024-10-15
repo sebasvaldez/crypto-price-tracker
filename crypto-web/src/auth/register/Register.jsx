@@ -1,6 +1,6 @@
 import { AuthContext } from "../../context/AuthContext";
 import { useState, useContext, useEffect } from "react";
-import { ReCaptcha } from "../../components/re-captcha/ReCaptcha";
+// import { ReCaptcha } from "../../components/re-captcha/ReCaptcha";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 import { Box, Alert } from "@mui/material";
@@ -96,9 +96,9 @@ export const Register = () => {
               required
             />
           </div>
-          <div className="recaptcha">
+          {/* <div className="recaptcha">
             <ReCaptcha />
-          </div>
+          </div> */}
         </div>
         <div className="forgot-password">
           ¿Ya tenes cuenta? <Link to="/login">Click aquí!</Link>

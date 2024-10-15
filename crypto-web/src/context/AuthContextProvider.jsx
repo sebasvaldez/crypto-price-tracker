@@ -22,6 +22,7 @@ import {
 } from "firebase/firestore";
 import { CoinContext } from "./CoinContext";
 
+
 export const AuthContextProvider = ({ children }) => {
   const { getFavoritesCoins } = useContext(CoinContext);
 
@@ -30,7 +31,9 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [activeUser, setActiveUser] = useState(null);
   const [error, setError] = useState(null);
-  const [captchaToken, setCaptchaToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // const [captchaToken, setCaptchaToken] = useState(null);
 
   const registerUser = async (name, email, password) => {
     if (name == "" || email == "" || password == "") {
@@ -39,10 +42,11 @@ export const AuthContextProvider = ({ children }) => {
     } else if (name.length < 6) {
       setError("El nombre debe tener al menos 6 caracteres");
       return;
-    } else if (captchaToken === null) {
-      setError("Debes verificar que no eres un robot");
-      return;
     }
+    // } else if (captchaToken === null) {
+    //   setError("Debes verificar que no eres un robot");
+    //   return;
+    // }
     try {
       const userCredential = await createUserWithEmailAndPassword(
         fireBaseAuth,
@@ -68,10 +72,11 @@ export const AuthContextProvider = ({ children }) => {
     if (email === "" || password === "") {
       setError("Todos los campos son obligatorios");
       return;
-    } else if (captchaToken === null) {
-      setError("Debes verificar que no eres un robot");
-      return;
-    }
+    } 
+    // else if (captchaToken === null) {
+    //   setError("Debes verificar que no eres un robot");
+    //   return;
+    // }
     try {
       const userCredential = await signInWithEmailAndPassword(
         fireBaseAuth,
@@ -203,7 +208,8 @@ export const AuthContextProvider = ({ children }) => {
     updateUserPassword,
     deleteUserAccount,
     handleErrorTranslator,
-    setCaptchaToken,
+    isLoading
+    // setCaptchaToken,
   };
 
   useEffect(() => {
@@ -214,6 +220,7 @@ export const AuthContextProvider = ({ children }) => {
         setActiveUser(user);
         setError(null);
       }
+      setIsLoading(false);
     });
     return () => suscribed();
   }, []);
@@ -229,7 +236,10 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
-  return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-  );
+ 
+    return (
+      <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    );
+  
+
 };
