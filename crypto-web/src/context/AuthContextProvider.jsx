@@ -22,7 +22,6 @@ import {
 } from "firebase/firestore";
 import { CoinContext } from "./CoinContext";
 
-
 export const AuthContextProvider = ({ children }) => {
   const { getFavoritesCoins } = useContext(CoinContext);
 
@@ -72,7 +71,7 @@ export const AuthContextProvider = ({ children }) => {
     if (email === "" || password === "") {
       setError("Todos los campos son obligatorios");
       return;
-    } 
+    }
     // else if (captchaToken === null) {
     //   setError("Debes verificar que no eres un robot");
     //   return;
@@ -208,7 +207,7 @@ export const AuthContextProvider = ({ children }) => {
     updateUserPassword,
     deleteUserAccount,
     handleErrorTranslator,
-    isLoading
+    isLoading,
     // setCaptchaToken,
   };
 
@@ -236,10 +235,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
- 
-    return (
-      <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-    );
-  
-
+  return (
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  );
 };
